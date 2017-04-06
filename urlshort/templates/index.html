@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortner</title>
+</head>
+<body>
+<form>
+    Long URL: <input type="text" name="long_url" value={{ long_url }}>
+    <input type="hidden" name="is_form">
+    <input type="submit" formaction="/shorten">
+    <div><a href={{ short_url }}>{{ short_url }}</a></div>
+</form>
+</body>
+</html>
