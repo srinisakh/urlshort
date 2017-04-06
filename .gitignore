@@ -97,3 +97,5 @@ ENV/
 /site
 
 .idea
+.vagrant
+urlshort/*.db

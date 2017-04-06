@@ -1,4 +1,18 @@
+"""
+Contains functions that convert database ID to and from a base62 ID containing
+alphabets and numbers
+
+ref: http://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
+"""
+
 def shorturl_from_id(n):
+    """
+    Generate a short code given an integer. Integer is DB key
+
+    :param n: Integer key that associated with URL
+    :return: Short code for a given integer
+    """
+
     m = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     s = ""
@@ -11,6 +25,12 @@ def shorturl_from_id(n):
 
 
 def shorturl_to_id(short_url):
+    """
+    Converts the code to corresponding internal database id
+
+    :param short_url: URL code
+    :return: Returns id previously generated
+    """
     id = 0
 
     for c in short_url:

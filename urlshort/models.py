@@ -4,6 +4,9 @@ db = SQLAlchemy()
 
 
 class LongUrl(db.Model):
+    """
+    URL ORM model
+    """
     id = db.Column(db.Integer(), primary_key=True)
     long_url = db.Column(db.String())
 

@@ -1,0 +1,24 @@
+---
+- hosts: all
+
+  tasks:
+  - name: Copy the urlshort repo
+    git:
+      repo=git://github.com/srsakhamuri/urlshort
+      dest="{{ ansible_env.HOME }}/urlshort"
+
+  - debug: msg="{{ ansible_env.HOME }}/urlshort"
+
+  - name: install make
+    sudo: yes
+    raw: (apt -y update && apt install -y make python-pip)
+
+  - name: setup env
+    command: make env
+    args:
+      chdir: "{{ ansible_env.HOME }}/urlshort"
+
+  - name: Start application
+    shell: "start-stop-daemon --start --quiet --pidfile /var/run/urlshort --exec {{ ansible_env.HOME }}/urlshort/run.sh"
+    args:
+      executable: "/bin/bash"
