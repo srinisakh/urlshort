@@ -7,11 +7,10 @@
       repo=git://github.com/srsakhamuri/urlshort
       dest="{{ ansible_env.HOME }}/urlshort"
 
-  - debug: msg="{{ ansible_env.HOME }}/urlshort"
 
   - name: install make
-    sudo: yes
-    raw: (apt -y update && apt install -y make python-pip)
+    become: yes
+    raw: (apt -y update && apt install -y make python-pip && pip install virtualenv)
 
   - name: setup env
     command: make env
@@ -19,6 +18,6 @@
       chdir: "{{ ansible_env.HOME }}/urlshort"
 
   - name: Start application
-    shell: "start-stop-daemon --start --quiet --pidfile /var/run/urlshort --exec {{ ansible_env.HOME }}/urlshort/run.sh"
+    shell: "start-stop-daemon --start --quiet -m --pidfile {{ ansible_env.HOME }}/urlshort.pid --background --exec {{ ansible_env.HOME }}/urlshort/.env/bin/python {{ ansible_env.HOME }}/urlshort/manage.py runserver"
     args:
       executable: "/bin/bash"

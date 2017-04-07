@@ -8,7 +8,6 @@ help:
 	@echo "  test        run all your tests using py.test"
 
 env:
-	sudo pip install virtualenv && \
 	virtualenv .env && \
 	. .env/bin/activate && \
 	make deps
