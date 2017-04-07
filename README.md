@@ -1,37 +1,42 @@
+##URL Shortner toy project
+
+This project implements simple tiny url using python with Flask, sqlalchemy
+
 1. Scalability
   The solution currently uses an ORM since it doesn't have a complex relational model this should scale
-  with any clustered RDBMS. Since this will be an read heavy application, Along with RDBMS we could use
+  well with any clustered RDBMS. Since this will be an read heavy application, Along with RDBMS we could use
   an in memory database like redis/memcached for heavily used URLs as an LRU cache.
 
 2. Availability
   Setup a loadbalancer like haproxy with healthchecks to make sure hosts are healthy.
   Round robin to send requests equally among healthy hosts. Also haproxy itself is prone to failure
   so would prefer setting up as a cluster with pacemaker and corosync using floating ip.
-  .
+  
 3. Deployment automation
-  Prefer doing an ansible playbooks for deployment automation for easy maintainability.
+  Prefer doing an ansible playbooks for deployment automation for easy maintainability. Check
+  deploy/playbook.yml for simple deployment steps
 
 4. Security
-  Currently no implemented but a solution with OAuth with API tokens for access management.
+  Currently no implemented but a solution with OAuth with API tokens for access management should be simple
+  to implment with Flask-login extension
 
 5. Testing
-  Will use unit tests to get maximum coverage. And also loadrunner or locust or jmeter for performance
+  Will use unit tests (pytest)to get maximum coverage. And also loadrunner or locust or jmeter for performance
   for each release to make sure the performance is not deteriorated over the time
 
 6. Internal doc
   Will depend on docstrings for API documentation. Use Sphinx for doc generation.
 
-*Example commands*
+###Example commands
 
-::
-curl -XPOST http://localhost:5000/shorten?long_url=http://google.com
 
-::
-curl <returned short url> - redirects to corresponding URL associated with this short URL
+`curl -XPOST http://localhost:5000/shorten?long_url=http://google.com`
+
+`curl <returned short url> - redirects to corresponding URL associated with this short URL`
 
 *Deploy log*
+```
 
-::
 11:06 $ vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Checking if box 'bento/ubuntu-16.04' is up to date...
@@ -63,7 +68,9 @@ Bringing machine 'default' up with 'virtualbox' provider...
     default: /vagrant => /Users/srisakha/src/urlshort
 ==> default: Running provisioner: ansible...
     default: Running ansible-playbook...
-
+```
+###Provision log
+```
 PLAY [all] *********************************************************************
 
 TASK [setup] *******************************************************************
@@ -90,7 +97,9 @@ changed: [default]
 
 PLAY RECAP *********************************************************************
 default                    : ok=7    changed=6    unreachable=0    failed=0
-
+```
+###Sample commands
+```
 (.env) ✔ ~/src/urlshort [master|✚ 2]
 11:10 $ curl -XPOST http://localhost:5050/shorten?long_url=http://google.com -H "Content-Type: application/json"
 <!DOCTYPE html>
@@ -107,21 +116,25 @@ default                    : ok=7    changed=6    unreachable=0    failed=0
 </form>
 </body>
 </html>
+
 (.env) ✔ ~/src/urlshort [master|✚ 2]
 11:11 $ curl -XPOST http://localhost:5050/shorten?long_url=http://google.com -H "Accept: application/json"
 {
   "long_url": "http://google.com",
   "short_url": "http://localhost:5050/c"
 }
+
 (.env) ✔ ~/src/urlshort [master|✚ 2]
 11:11 $ curl -XPOST http://localhost:5050/shorten?long_url=http://citrix.com -H "Accept: application/json"
 {
   "long_url": "http://citrix.com",
   "short_url": "http://localhost:5050/d"
 }
+
 (.env) ✔ ~/src/urlshort [master|✚ 2]
 11:11 $ curl http://localhost:5050/d
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <title>Redirecting...</title>
 <h1>Redirecting...</h1>
 <p>You should be redirected automatically to target URL: <a href="http://citrix.com">http://citrix.com</a>.  If not click the link.
+```
