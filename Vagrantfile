@@ -12,7 +12,10 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/xenial64"
+  #  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.network "forwarded_port", guest: 5000, host: 5050
+
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"

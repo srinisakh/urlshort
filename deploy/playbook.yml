@@ -7,10 +7,13 @@
       repo=git://github.com/srsakhamuri/urlshort
       dest="{{ ansible_env.HOME }}/urlshort"
 
-
   - name: install make
     become: yes
     raw: (apt -y update && apt install -y make python-pip && pip install virtualenv)
+
+  - name: Kill existing process
+    raw: pkill -F {{ ansible_env.HOME }}/urlshort.pid
+    ignore_errors: yes
 
   - name: setup env
     command: make env

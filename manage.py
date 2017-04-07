@@ -9,7 +9,7 @@ from urlshort.models import db
 app = urlshort.create_app()
 
 manager = Manager(app)
-manager.add_command("server", Server())
+manager.add_command("server", Server(host="0.0.0.0"))
 manager.add_command("show-urls", ShowUrls())
 manager.add_command("clean", Clean())
 

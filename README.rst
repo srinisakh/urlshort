@@ -26,3 +26,9 @@
 - User doc
 
 - Performance
+
+Example commands:
+
+curl -XPOST http://localhost:5000/shorten?long_url=http://google.com
+
+curl <returned short url> - redirects to corresponding URL associated with this short URL
