@@ -20,6 +20,9 @@
     args:
       chdir: "{{ ansible_env.HOME }}/urlshort"
 
+  - name: Creae database
+    command: "{{ ansible_env.HOME}}/urlshort/.env/bin/python {{ ansible_env.HOME }}/urlshort/manage.py createdb"
+
   - name: Start application
     shell: "start-stop-daemon --start --quiet -m --pidfile {{ ansible_env.HOME }}/urlshort.pid --background --exec {{ ansible_env.HOME }}/urlshort/.env/bin/python {{ ansible_env.HOME }}/urlshort/manage.py server"
     args:
