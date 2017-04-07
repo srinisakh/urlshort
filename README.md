@@ -1,4 +1,4 @@
-##URL Shortner toy project
+## URL Shortner toy project
 
 This project implements simple tiny url using python with Flask, sqlalchemy
 
@@ -27,14 +27,14 @@ This project implements simple tiny url using python with Flask, sqlalchemy
 6. Internal doc
   Will depend on docstrings for API documentation. Use Sphinx for doc generation.
 
-###Example commands
+### Example commands
 
 
 `curl -XPOST http://localhost:5000/shorten?long_url=http://google.com`
 
 `curl <returned short url> - redirects to corresponding URL associated with this short URL`
 
-*Deploy log*
+### Deploy log
 ```
 
 11:06 $ vagrant up
@@ -69,7 +69,7 @@ Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Running provisioner: ansible...
     default: Running ansible-playbook...
 ```
-###Provision log
+### Provision log
 ```
 PLAY [all] *********************************************************************
 
@@ -98,7 +98,7 @@ changed: [default]
 PLAY RECAP *********************************************************************
 default                    : ok=7    changed=6    unreachable=0    failed=0
 ```
-###Sample commands
+### Sample commands
 ```
 (.env) ✔ ~/src/urlshort [master|✚ 2]
 11:10 $ curl -XPOST http://localhost:5050/shorten?long_url=http://google.com -H "Content-Type: application/json"
