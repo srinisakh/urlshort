@@ -33,7 +33,7 @@ def get_url_from_db(id):
     :return: URL that corresponds to the id requested
     """
     lu = models.LongUrl.query.get(id)
-    return lu.long_url
+    return lu.long_url if lu else None
 
 
 @app.route('/shorten', methods=['POST'])
@@ -45,18 +45,21 @@ def shorten_url():
     result containing the shortened URL
     """
     long_url = request.args.get("long_url")
-    if validators.url(long_url):
-        id = get_id_from_db(long_url)
+    try:
+        if validators.url(long_url):
+            id = get_id_from_db(long_url)
 
-        vals = dict(long_url=long_url,
-                    short_url=url_for(".navigate_to",
-                                      code=hu.shorturl_from_id(id),
-                                      _external=True))
-        if request.accept_mimetypes.accept_html:
-            return render_template("index.html", **vals)
+            vals = dict(long_url=long_url,
+                        short_url=url_for(".navigate_to",
+                                          code=hu.shorturl_from_id(id),
+                                          _external=True))
+            if request.accept_mimetypes.accept_html:
+                return render_template("index.html", **vals)
+            else:
+                return jsonify(**vals)
         else:
-            return jsonify(**vals)
-    else:
+            abort(400)
+    except Exception:
         abort(400)
 
 
@@ -70,7 +73,7 @@ def navigate_to(code):
     """
     id = hu.shorturl_to_id(code)
     long_url = get_url_from_db(id)
-    return redirect(long_url)
+    return redirect(long_url) if long_url else abort(404)
 
 
 @app.route('/', methods=['GET'])
