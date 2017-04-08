@@ -21,10 +21,9 @@ This project implements simple tiny url using python with Flask, sqlalchemy
 
 ### Example commands
 
-`curl -XPOST http://localhost:5000/shorten?long_url=http://google.com`
+`curl -XPOST http://localhost:5000/shorten?long_url=http://google.com -H "Accept: application/json"`
 
-`curl <returned short url> - redirects to corresponding URL associated with this short URL`
-
+`curl http://localhost:5000/<short_code>` redirects to corresponding URL associated with this short URL
 
 ### Few other things
 
