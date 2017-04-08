@@ -2,6 +2,32 @@
 
 This project implements simple tiny url using python with Flask, sqlalchemy
 
+### How to run
+
+1. Checkout the source from the git repo
+   `git clone git@github.com:srsakhamuri\urlshort`
+2. Then change directory
+   `cd urlshort`
+3. Create env
+   `make env`
+4. activate the sandbox
+   `source .env/bin/activate`
+5. Create the database
+   `./manage.py createdb`
+6. Run the server
+   `./manage.py server`
+7. Check out the following section for running the curl API or run it via the browser by hitting
+   `http://localhost:5000`
+
+### Example commands
+
+`curl -XPOST http://localhost:5000/shorten?long_url=http://google.com`
+
+`curl <returned short url> - redirects to corresponding URL associated with this short URL`
+
+
+### Few other things
+
 1. Scalability
   The solution currently uses an ORM since it doesn't have a complex relational model this should scale
   well with any clustered RDBMS. Since this will be an read heavy application, Along with RDBMS we could use
@@ -27,12 +53,6 @@ This project implements simple tiny url using python with Flask, sqlalchemy
 6. Internal doc
   Will depend on docstrings for API documentation. Use Sphinx for doc generation.
 
-### Example commands
-
-
-`curl -XPOST http://localhost:5000/shorten?long_url=http://google.com`
-
-`curl <returned short url> - redirects to corresponding URL associated with this short URL`
 
 ### Deploy log
 ```
